@@ -12,6 +12,7 @@ import Courses from "./pages/Courses";
 import Attendance from "./pages/Attendance";
 import Assignments from "./pages/Assignments";
 import ApiStructure from "./pages/Api";
+import AuthApi from "./pages/AuthApi";
 import AuthLayout from "./layouts/AuthLayout";
 import MainLayout from "./layouts/MainLayout";
 
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/assignments" element={<Assignments />} />
               <Route path="/api" element={<ApiStructure />} />
+              <Route path="/api/auth" element={<AuthApi />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

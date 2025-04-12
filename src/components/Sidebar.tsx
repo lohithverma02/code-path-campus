@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { 
@@ -23,10 +24,14 @@ const Sidebar = () => {
   const [codingExpanded, setCodingExpanded] = useState(false);
   const [aiExpanded, setAiExpanded] = useState(false);
   const [developerExpanded, setDeveloperExpanded] = useState(false);
+  
+  const userRole = localStorage.getItem("userRole") || "student";
 
   const handleLogout = () => {
     localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userId");
     window.location.href = "/login";
   };
 
@@ -38,7 +43,9 @@ const Sidebar = () => {
           <BookOpen className="h-6 w-6 text-campus-primary" />
           <div className="ml-2">
             <h1 className="text-white font-semibold text-lg">Campus Bridge</h1>
-            <p className="text-sidebar-foreground text-xs">Student Portal</p>
+            <p className="text-sidebar-foreground text-xs">
+              {userRole === "faculty" ? "Faculty Portal" : "Student Portal"}
+            </p>
           </div>
         </Link>
       </div>
@@ -46,11 +53,15 @@ const Sidebar = () => {
       {/* Profile */}
       <div className="p-5 border-b border-sidebar-border flex items-center">
         <div className="w-10 h-10 rounded-full bg-campus-primary flex items-center justify-center text-white font-medium">
-          JS
+          {userRole === "faculty" ? "FP" : "JS"}
         </div>
         <div className="ml-3">
-          <p className="text-white font-medium">John Smith</p>
-          <p className="text-xs text-sidebar-foreground">ID: ST12345</p>
+          <p className="text-white font-medium">
+            {userRole === "faculty" ? "Faculty Profile" : "John Smith"}
+          </p>
+          <p className="text-xs text-sidebar-foreground">
+            ID: {userRole === "faculty" ? "F2001" : "ST12345"}
+          </p>
         </div>
       </div>
 

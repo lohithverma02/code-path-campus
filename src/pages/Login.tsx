@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { BookOpen, Loader2 } from "lucide-react";
 
-type UserRole = "student" | "faculty" | "admin";
+type UserRole = "student" | "faculty";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Login = () => {
     
     setIsLoading(true);
     
-    // Simulate API call
+    // Simulate API call to /auth/login
     setTimeout(() => {
       setIsLoading(false);
       
@@ -46,6 +46,8 @@ const Login = () => {
       if (username === "demo" && password === "password") {
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("userRole", role);
+        localStorage.setItem("authToken", "mock-jwt-token-for-demo");
+        localStorage.setItem("userId", role === "student" ? "S1001" : "F2001");
         navigate("/dashboard");
         toast({
           title: "Login Successful",
@@ -68,6 +70,8 @@ const Login = () => {
       setIsLoading(false);
       localStorage.setItem("isAuthenticated", "true");
       localStorage.setItem("userRole", demoRole);
+      localStorage.setItem("authToken", "mock-jwt-token-for-demo");
+      localStorage.setItem("userId", demoRole === "student" ? "S1001" : "F2001");
       navigate("/dashboard");
       toast({
         title: "Demo Login",
@@ -136,10 +140,9 @@ const Login = () => {
           <p className="text-gray-600 mb-8">Welcome back! Please enter your details</p>
           
           <Tabs defaultValue="student" value={role} onValueChange={(value) => setRole(value as UserRole)}>
-            <TabsList className="grid grid-cols-3 mb-8">
+            <TabsList className="grid grid-cols-2 mb-8">
               <TabsTrigger value="student">Student</TabsTrigger>
               <TabsTrigger value="faculty">Faculty</TabsTrigger>
-              <TabsTrigger value="admin">Admin</TabsTrigger>
             </TabsList>
             
             <TabsContent value="student">
@@ -190,7 +193,7 @@ const Login = () => {
               
               <div className="mt-8">
                 <p className="text-center text-gray-500 mb-4">Demo Accounts</p>
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex space-x-4">
                   <Button 
                     variant="outline" 
                     className="flex-1"
@@ -207,38 +210,65 @@ const Login = () => {
                   >
                     Faculty Demo
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    className="flex-1"
-                    onClick={() => handleDemoLogin("admin")}
-                    disabled={isLoading}
-                  >
-                    Admin Demo
-                  </Button>
                 </div>
               </div>
             </TabsContent>
             
             <TabsContent value="faculty">
-              <div className="space-y-4">
-                <p>Faculty login form with the same fields as student login.</p>
+              <form onSubmit={handleLogin} className="space-y-5">
+                <div className="space-y-2">
+                  <Label htmlFor="faculty-username">Username</Label>
+                  <Input
+                    id="faculty-username"
+                    placeholder="Enter your faculty ID"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="bg-gray-50"
+                  />
+                  {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="faculty-password">Password</Label>
+                    <a href="#" className="text-sm text-campus-primary hover:underline">Forgot password?</a>
+                  </div>
+                  <Input
+                    id="faculty-password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="bg-gray-50"
+                  />
+                  {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+                </div>
+                
+                <Button 
+                  type="submit" 
+                  className="w-full bg-campus-primary hover:bg-campus-primary/90 py-6 text-lg"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    "Sign In"
+                  )}
+                </Button>
+              </form>
+              
+              <div className="mt-8">
+                <p className="text-center text-gray-500 mb-4">Demo Account</p>
                 <Button
+                  variant="outline"
                   className="w-full"
                   onClick={() => handleDemoLogin("faculty")}
+                  disabled={isLoading}
                 >
-                  Continue as Demo Faculty
-                </Button>
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="admin">
-              <div className="space-y-4">
-                <p>Admin login form with the same fields as student login.</p>
-                <Button
-                  className="w-full"
-                  onClick={() => handleDemoLogin("admin")}
-                >
-                  Continue as Demo Admin
+                  Faculty Demo
                 </Button>
               </div>
             </TabsContent>
