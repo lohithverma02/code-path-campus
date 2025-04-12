@@ -1,16 +1,15 @@
 
 import { Navigate, Outlet } from "react-router-dom";
 import { useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
-// This is a simple auth layout that will redirect to login if not authenticated
-// In a real app, this would verify the JWT token with the backend
 const AuthLayout = () => {
-  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+  const { isAuthenticated, isLoading, user } = useAuth();
   const authToken = localStorage.getItem("authToken");
   
   useEffect(() => {
     // In a real app, we would validate the JWT token here
-    // and redirect to login if it's invalid or expired
     // For demo purposes, we're just checking if the token exists
     if (!authToken && isAuthenticated) {
       localStorage.removeItem("isAuthenticated");
@@ -18,6 +17,20 @@ const AuthLayout = () => {
     }
   }, [authToken, isAuthenticated]);
   
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="space-y-2 w-[80%] max-w-md">
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+        </div>
+      </div>
+    );
+  }
+  
+  // Redirect to login if not authenticated
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
