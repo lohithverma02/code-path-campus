@@ -36,7 +36,7 @@ const Courses = () => {
       progress: 42
     },
     {
-      id: na 3,
+      id: 3,
       code: "CS303",
       name: "Object Oriented Programming",
       instructor: "Dr. Robert Johnson",
