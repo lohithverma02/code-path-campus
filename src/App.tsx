@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Courses from "./pages/Courses";
 import Attendance from "./pages/Attendance";
 import Assignments from "./pages/Assignments";
+import ApiStructure from "./pages/Api";
 import AuthLayout from "./layouts/AuthLayout";
 import MainLayout from "./layouts/MainLayout";
 
@@ -31,6 +32,7 @@ const App = () => (
               <Route path="/courses" element={<Courses />} />
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/assignments" element={<Assignments />} />
+              <Route path="/api" element={<ApiStructure />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

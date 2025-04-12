@@ -13,7 +13,8 @@ import {
   ClipboardList,
   BookCheck,
   GraduationCap,
-  Bot
+  Bot,
+  FileJson
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -21,6 +22,7 @@ const Sidebar = () => {
   const [academicExpanded, setAcademicExpanded] = useState(true);
   const [codingExpanded, setCodingExpanded] = useState(false);
   const [aiExpanded, setAiExpanded] = useState(false);
+  const [developerExpanded, setDeveloperExpanded] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("isAuthenticated");
@@ -192,6 +194,32 @@ const Sidebar = () => {
                 className={`nav-item ${location.pathname === '/code-review' ? 'active' : ''}`}
               >
                 <span>Code Review</span>
+              </Link>
+            </div>
+          )}
+        </div>
+        
+        {/* Developer Section */}
+        <div>
+          <button 
+            onClick={() => setDeveloperExpanded(!developerExpanded)}
+            className="w-full nav-item"
+          >
+            <FileJson size={18} />
+            <span className="flex-1 text-left">Developer</span>
+            <ChevronDown 
+              size={16} 
+              className={`transition-transform ${developerExpanded ? 'rotate-180' : ''}`} 
+            />
+          </button>
+          
+          {developerExpanded && (
+            <div className="ml-7 mt-2 space-y-1">
+              <Link 
+                to="/api" 
+                className={`nav-item ${location.pathname === '/api' ? 'active' : ''}`}
+              >
+                <span>API Documentation</span>
               </Link>
             </div>
           )}

@@ -29,8 +29,16 @@ const DashboardCard = ({
     red: "border-campus-danger text-campus-danger"
   };
 
+  const bgColorClasses = {
+    blue: "bg-campus-primary/10",
+    purple: "bg-campus-secondary/10",
+    green: "bg-campus-success/10",
+    orange: "bg-campus-warning/10",
+    red: "bg-campus-danger/10"
+  };
+
   return (
-    <div className={`dashboard-card border-l-4 ${colorClasses[color]}`}>
+    <div className={`dashboard-card border-l-4 ${colorClasses[color]} hover:shadow-md transition-shadow duration-300`}>
       <div className="flex justify-between items-start">
         <div>
           <h3 className="text-gray-500 font-medium text-sm">{title}</h3>
@@ -44,7 +52,7 @@ const DashboardCard = ({
           </div>
           {description && <p className="text-gray-500 text-sm mt-1">{description}</p>}
         </div>
-        <div className={`p-2 rounded-full bg-gray-100`}>
+        <div className={`p-3 rounded-full ${bgColorClasses[color]}`}>
           {icon}
         </div>
       </div>

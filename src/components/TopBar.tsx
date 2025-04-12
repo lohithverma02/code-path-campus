@@ -1,5 +1,6 @@
 
 import { Bell, Search, HelpCircle } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -10,12 +11,36 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const TopBar = () => {
+  const location = useLocation();
+  
+  const getPageTitle = () => {
+    switch (location.pathname) {
+      case '/dashboard': return 'Academic Dashboard';
+      case '/courses': return 'Courses';
+      case '/attendance': return 'Attendance';
+      case '/assignments': return 'Assignments';
+      case '/grades': return 'Grades';
+      case '/api': return 'API Documentation';
+      default: return 'Campus Bridge';
+    }
+  };
+  
+  const isApiRoute = location.pathname === '/api';
+  
   return (
     <header className="bg-white border-b border-gray-200 p-4 flex items-center justify-between">
       <div className="flex-1">
-        <h2 className="text-2xl font-semibold text-gray-800">Academic Dashboard</h2>
+        <div className="flex items-center">
+          <h2 className="text-2xl font-semibold text-gray-800">{getPageTitle()}</h2>
+          {isApiRoute && (
+            <Badge className="ml-3 bg-green-100 text-green-800 hover:bg-green-200">
+              Developer
+            </Badge>
+          )}
+        </div>
       </div>
       
       <div className="flex items-center space-x-4">
