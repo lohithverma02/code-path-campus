@@ -12,7 +12,7 @@ import {
   Clock,
   ClipboardList,
   BookCheck,
-  Graduation,
+  GraduationCap,
   Bot
 } from "lucide-react";
 
@@ -102,7 +102,7 @@ const Sidebar = () => {
                 to="/grades" 
                 className={`nav-item ${location.pathname === '/grades' ? 'active' : ''}`}
               >
-                <Graduation size={16} />
+                <GraduationCap size={16} />
                 <span>Grades</span>
               </Link>
             </div>
